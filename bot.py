@@ -11,7 +11,7 @@ from nltk.corpus import words
 # word_list = sorted(words.words(), key=lambda x: freqs[x.lower()], reverse=True)
 word_list = words.words()
 arr = []
-start_phrase = "marry"
+start_phrase = "crane"
 for word in word_list:
   if len(word) == 5:
     arr.append(word.lower())
@@ -133,4 +133,4 @@ cv2.destroyAllWindows()
 # TODO
 # words with double letters (one green)
 # better words
-# sort words?
+# last letter green not reading
