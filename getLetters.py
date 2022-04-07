@@ -8,11 +8,11 @@ import pytesseract
 
 pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract.exe'
 
-# image = pyautogui.screenshot(region=(750, 220, 430, 530))
-# image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-# cv2.imwrite("game.png", image)
-# cv2.imshow("image", image)
-# cv2.waitKey()
+image = pyautogui.screenshot(region=(750, 220, 430, 530))
+image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+cv2.imwrite("game.png", image)
+cv2.imshow("image", image)
+cv2.waitKey()
 
 image = cv2.imread("game.png")
 resized = imutils.resize(image, width=400)

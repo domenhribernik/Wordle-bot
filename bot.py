@@ -11,7 +11,7 @@ from nltk.corpus import words
 # word_list = sorted(words.words(), key=lambda x: freqs[x.lower()], reverse=True)
 word_list = words.words()
 arr = []
-start_phrase = "crane"
+start_phrase = "marry"
 for word in word_list:
   if len(word) == 5:
     arr.append(word.lower())
@@ -19,8 +19,8 @@ for word in word_list:
 word_set = set(arr)
 print(len(word_set))
 green_letters = ["", "", "", "", ""]
-yellow_letters = [[], ["r"], ["a"], [], []]
-wrong_letters = ["c", "n", "e"]
+yellow_letters = [[], [], [], [], []]
+wrong_letters = []
 time.sleep(3)
 guess_word = start_phrase
 for index in range(0, 5):
@@ -121,17 +121,16 @@ for index in range(0, 5):
     print(word)
   print(len(word_set))
   guess_word = list(word_set)[random.randint(0, len(word_set)-1)]
-  print ("word: " + guess_word)
-  # time.sleep(3)
+  print("word: " + guess_word)
+  time.sleep(3)
   
 cv2.imwrite("results/game"+str(datetime.date.today())+"-"+str(random.randint(100,999))+".png", output)
-# cv2.imshow("Thresh", thresh)
-# cv2.imshow("Output", output)
-# cv2.waitKey()
-# cv2.destroyAllWindows()
+cv2.imshow("Thresh", thresh)
+cv2.imshow("Output", output)
+cv2.waitKey()
+cv2.destroyAllWindows()
 
-
-#TODO
+# TODO
 # words with double letters (one green)
 # better words
 # sort words?
