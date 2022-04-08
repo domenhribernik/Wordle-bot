@@ -23,7 +23,7 @@ yellow_letters = [[], [], [], [], []]
 wrong_letters = []
 time.sleep(3)
 guess_word = start_phrase
-for index in range(0, 5):
+for index in range(0, 6):
   pyautogui.typewrite(guess_word)
   pyautogui.press("enter")
   time.sleep(3)
@@ -42,7 +42,6 @@ for index in range(0, 5):
   output = cv2.drawContours(image, contours, -1, (0, 0, 255), 2)
 
   colors = []
-
   for contour in contours:
     y = contour[0][0][1] + 15
     x = contour[0][0][0] + 15
@@ -92,7 +91,6 @@ for index in range(0, 5):
     print("You Win")
     break
 
-  green_letters[4] = "y"
   tmp = word_set.copy()
   for word in word_set:
     for i in range(0, len(green_letters)):
