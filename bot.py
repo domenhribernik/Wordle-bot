@@ -6,12 +6,15 @@ import random
 import datetime
 import cv2
 from nltk.corpus import words
+import setup
 # from nltk.corpus import brown
 # freqs = nltk.FreqDist([w.lower() for w in brown.words()])
 # word_list = sorted(words.words(), key=lambda x: freqs[x.lower()], reverse=True)
 word_list = words.words()
 arr = []
-start_phrase = "nymph"
+start_phrase = "crane"
+testing = True
+
 for word in word_list:
   if len(word) == 5:
     arr.append(word.lower())
@@ -22,18 +25,19 @@ green_letters = ["", "", "", "", ""]
 yellow_letters = [[], [], [], [], []]
 wrong_letters = []
 colors_count_len = []
-time.sleep(3)
+if testing:
+  setup.setup(3)
 guess_word = start_phrase
 index = 0
 while index < 5:
   time.sleep(0.2)
   pyautogui.typewrite(guess_word, interval=0.1)
   pyautogui.press("enter")
-  time.sleep(2)
+  time.sleep(1.7)
   image = pyautogui.screenshot(region=(745, 200, 430, 550))
   image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
   cv2.imwrite("game.png", image)
-  cv2.imshow("image", image)
+  #cv2.imshow("image", image)
 
   image = cv2.imread("game.png")
   gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -71,19 +75,16 @@ while index < 5:
     if(len(colors) == colors_count_len[-1]):
       print ("bad guess")
       for i in range (0, len(word)):
-        time.sleep(0.1)
         pyautogui.press("backspace")
       print("before len: " + str(len(word_set)))
       word_set.remove(guess_word)
       print("words: " + str(len(word_set)))
       guess_word = list(word_set)[random.randint(0, len(word_set)-1)]
       print("word: " + guess_word + " " + str(index))
-      cv2.imwrite("test.png", image)
-      time.sleep(2)
+      #time.sleep(2)
       continue
     else:
       colors_count_len.append(len(colors))
-
   tmp = []
   for i in range(len(colors)-5, len(colors)):
     tmp.append(colors[i])
@@ -109,11 +110,9 @@ while index < 5:
       for j in range(0, len(wrong_letters)):
         print(wrong_letters[j], end = " ")
     print("")
-
   if "" not in green_letters:
     print("You Win")
     break
-
   tmp = word_set.copy()
   for word in word_set:
     for i in range(0, len(green_letters)):
@@ -144,15 +143,12 @@ while index < 5:
   guess_word = list(word_set)[random.randint(0, len(word_set)-1)]
   print("word: " + guess_word + " " + str(index))
   index += 1
-  time.sleep(2)
+  #time.sleep(2)
   
 cv2.imwrite("results/game"+str(datetime.date.today())+"-"+str(random.randint(100,999))+".png", output)
-cv2.imshow("Thresh", thresh)
 cv2.imshow("Output", output)
 cv2.waitKey()
 cv2.destroyAllWindows()
 
 # TODO
 # words with double letters (one green)
-# better words
-# last letter green not reading
