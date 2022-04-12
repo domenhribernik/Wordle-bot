@@ -21,6 +21,7 @@ print(len(word_set))
 green_letters = ["", "", "", "", ""]
 yellow_letters = [[], [], [], [], []]
 wrong_letters = []
+colors_count_len = []
 time.sleep(3)
 guess_word = start_phrase
 for index in range(0, 6):
@@ -60,6 +61,15 @@ for index in range(0, 6):
     cv2.putText(output, text, (x+10, y), cv2.FONT_HERSHEY_COMPLEX, 0.4, (255, 0, 0), 1, cv2.LINE_AA)
     if text != "empty":
       colors.insert(0, text)
+      
+  print("len: " + str(len(colors)))
+  if(not colors_count_len):
+    colors_count_len.append(len(colors))
+  else:
+    if(len(colors) == colors_count_len[-1]):
+      print ("bad guess")
+    else:
+      colors_count_len.append(len(colors))
 
   tmp = []
   for i in range(len(colors)-5, len(colors)):
