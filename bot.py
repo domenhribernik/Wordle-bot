@@ -11,7 +11,7 @@ from nltk.corpus import words
 # word_list = sorted(words.words(), key=lambda x: freqs[x.lower()], reverse=True)
 word_list = words.words()
 arr = []
-start_phrase = "crane"
+start_phrase = "nymph"
 for word in word_list:
   if len(word) == 5:
     arr.append(word.lower())
@@ -24,10 +24,12 @@ wrong_letters = []
 colors_count_len = []
 time.sleep(3)
 guess_word = start_phrase
-for index in range(0, 6):
-  pyautogui.typewrite(guess_word)
+index = 0
+while index < 5:
+  time.sleep(0.2)
+  pyautogui.typewrite(guess_word, interval=0.1)
   pyautogui.press("enter")
-  time.sleep(3)
+  time.sleep(2)
   image = pyautogui.screenshot(region=(745, 200, 430, 550))
   image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
   cv2.imwrite("game.png", image)
@@ -68,6 +70,17 @@ for index in range(0, 6):
   else:
     if(len(colors) == colors_count_len[-1]):
       print ("bad guess")
+      for i in range (0, len(word)):
+        time.sleep(0.1)
+        pyautogui.press("backspace")
+      print("before len: " + str(len(word_set)))
+      word_set.remove(guess_word)
+      print("words: " + str(len(word_set)))
+      guess_word = list(word_set)[random.randint(0, len(word_set)-1)]
+      print("word: " + guess_word + " " + str(index))
+      cv2.imwrite("test.png", image)
+      time.sleep(2)
+      continue
     else:
       colors_count_len.append(len(colors))
 
@@ -125,12 +138,13 @@ for index in range(0, 6):
         else:
           tmp.discard(word)
   word_set = tmp.copy()
-  for word in word_set:
-    print(word)
-  print(len(word_set))
+  # for word in word_set:
+  #   print(word)
+  print("words: " + str(len(word_set)))
   guess_word = list(word_set)[random.randint(0, len(word_set)-1)]
-  print("word: " + guess_word)
-  time.sleep(3)
+  print("word: " + guess_word + " " + str(index))
+  index += 1
+  time.sleep(2)
   
 cv2.imwrite("results/game"+str(datetime.date.today())+"-"+str(random.randint(100,999))+".png", output)
 cv2.imshow("Thresh", thresh)
