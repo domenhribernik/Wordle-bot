@@ -12,8 +12,12 @@ import setup
 # word_list = sorted(words.words(), key=lambda x: freqs[x.lower()], reverse=True)
 word_list = words.words()
 arr = []
+
 start_phrase = "crane"
-testing = True
+testing = False
+setupTime = 3
+shorcutKey = True if testing else False
+closeWindow = True if testing else False
 
 for word in word_list:
   if len(word) == 5:
@@ -26,10 +30,12 @@ yellow_letters = [[], [], [], [], []]
 wrong_letters = []
 colors_count_len = []
 if testing:
-  setup.setup(3)
+  setup.setup(setupTime, shorcutKey)
+else:
+  time.sleep(setupTime)
 guess_word = start_phrase
 index = 0
-while index < 5:
+while index < 6:
   time.sleep(0.2)
   pyautogui.typewrite(guess_word, interval=0.1)
   pyautogui.press("enter")
@@ -96,22 +102,32 @@ while index < 5:
     elif colors[i] == "green":
       if green_letters[i] == "":
         green_letters[i] = guess_word[i]
+        if guess_word[i] in wrong_letters: #TODO fix double letters
+          wrong_letters.remove(guess_word[i])
       print(str(i) + " " + guess_word[i] + " is green", end="")
     elif colors[i] == "yellow":
       yellow_letters[i].append(guess_word[i])
+      if guess_word[i] in wrong_letters: #TODO fix double letters
+        wrong_letters.remove(guess_word[i])
       print(str(i), end=" ")
       for j in range(0, len(yellow_letters[i])):
         print(yellow_letters[i][j], end=" ")
       print("is yellow", end="")
     elif colors[i] == "gray":
-      if guess_word[i] not in wrong_letters:
-        wrong_letters.append(guess_word[i])
+      for j in range(0, len(yellow_letters[i])):
+        if guess_word[i] not in wrong_letters and guess_word[i] not in green_letters and guess_word[i] not in yellow_letters[i][j]: #TODO fix double letters
+          wrong_letters.append(guess_word[i])
+      # if guess_word[i] not in wrong_letters:
+      #     wrong_letters.append(guess_word[i])    
       print("Wrong letters:", end=" ")
       for j in range(0, len(wrong_letters)):
         print(wrong_letters[j], end = " ")
     print("")
   if "" not in green_letters:
     print("You Win")
+    break
+  elif index == 5:
+    print("You Lose")
     break
   tmp = word_set.copy()
   for word in word_set:
@@ -146,9 +162,12 @@ while index < 5:
   #time.sleep(2)
   
 cv2.imwrite("results/game"+str(datetime.date.today())+"-"+str(random.randint(100,999))+".png", output)
+if closeWindow:
+  time.sleep(setupTime)
+  pyautogui.hotkey('ctrl', 'w')
+  pyautogui.hotkey('ctrl', 'w')
 cv2.imshow("Output", output)
 cv2.waitKey()
 cv2.destroyAllWindows()
-
 # TODO
 # words with double letters (one green)
