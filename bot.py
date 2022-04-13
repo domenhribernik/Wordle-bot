@@ -14,7 +14,7 @@ word_list = words.words()
 arr = []
 
 start_phrase = "crane"
-testing = False
+testing = True
 setupTime = 3
 shorcutKey = True if testing else False
 closeWindow = True if testing else False
@@ -71,6 +71,7 @@ while index < 6:
     elif(b == 19 and g == 18 and r == 18):
       text = "empty"
     cv2.putText(output, text, (x+10, y), cv2.FONT_HERSHEY_COMPLEX, 0.4, (255, 0, 0), 1, cv2.LINE_AA)
+    #cv2.putText(output, guess_word[0],(x+37, y+45), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA) #TODO add letters on output
     if text != "empty":
       colors.insert(0, text)
       
@@ -114,9 +115,13 @@ while index < 6:
         print(yellow_letters[i][j], end=" ")
       print("is yellow", end="")
     elif colors[i] == "gray":
-      for j in range(0, len(yellow_letters[i])):
-        if guess_word[i] not in wrong_letters and guess_word[i] not in green_letters and guess_word[i] not in yellow_letters[i][j]: #TODO fix double letters
-          wrong_letters.append(guess_word[i])
+      if guess_word[i] not in wrong_letters: 
+        wrong_letters.append(guess_word[i])
+      for j in range(0, len(yellow_letters[i])): #TODO fix double letters
+        if guess_word[i] in wrong_letters and guess_word[i] in yellow_letters[i][j]:
+          wrong_letters.remove(guess_word[i])
+      if guess_word[i] in green_letters: #TODO fix double letters
+        wrong_letters.remove(guess_word[i])
       # if guess_word[i] not in wrong_letters:
       #     wrong_letters.append(guess_word[i])    
       print("Wrong letters:", end=" ")
