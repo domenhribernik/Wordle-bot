@@ -1,4 +1,3 @@
-from unittest import case
 import numpy as np
 import pyautogui
 import time
@@ -6,33 +5,24 @@ import random
 import datetime
 import cv2
 from nltk.corpus import words
-import setup
-# from nltk.corpus import brown
-# freqs = nltk.FreqDist([w.lower() for w in brown.words()])
-# word_list = sorted(words.words(), key=lambda x: freqs[x.lower()], reverse=True)
+
 word_list = words.words()
 arr = []
 
 start_phrase = "crane"
-testing = False
 setupTime = 3
-shorcutKey = True if testing else False
-closeWindow = True if testing else False
 
 for word in word_list:
   if len(word) == 5:
     arr.append(word.lower())
-# 9972 words
+
 word_set = set(arr)
 print(len(word_set))
 green_letters = ["", "", "", "", ""]
 yellow_letters = [[], [], [], [], []]
 wrong_letters = []
 colors_count_len = []
-if testing:
-  setup.setup(setupTime, shorcutKey)
-else:
-  time.sleep(setupTime)
+time.sleep(setupTime)
 guess_word = start_phrase
 index = 0
 while index < 6:
@@ -167,10 +157,6 @@ while index < 6:
   #time.sleep(2)
   
 cv2.imwrite("results/game"+str(datetime.date.today())+".png", output) #"-"+str(random.randint(100,999))+
-if closeWindow:
-  time.sleep(setupTime)
-  pyautogui.hotkey('ctrl', 'w')
-  pyautogui.hotkey('ctrl', 'w')
 cv2.imshow("Output", output)
 cv2.waitKey()
 cv2.destroyAllWindows()

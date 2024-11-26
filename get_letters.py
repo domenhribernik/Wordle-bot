@@ -2,7 +2,7 @@ import numpy as np
 import pyautogui
 import imutils
 import cv2
-from shapedetector import ShapeDetector
+from shape_detector import ShapeDetector
 from PIL import Image
 import pytesseract
 
