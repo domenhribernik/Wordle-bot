@@ -17,6 +17,7 @@ class RectangleSelectorApp:
         self.start_x = None
         self.start_y = None
         self.rectangle = None
+        self.rectangle_box = None
         self.cropped_image = None  # To store the cropped image
 
         self.canvas = tk.Canvas(root, bg="black", highlightthickness=0)
@@ -59,6 +60,13 @@ class RectangleSelectorApp:
         if end_x == self.start_x or end_y == self.start_y:
             self.info_label.config(text="Invalid selection: Please select a valid area.")
             return
+        
+        x = min(self.start_x, end_x)
+        y = min(self.start_y, end_y)
+        width = abs(self.start_x - end_x)
+        height = abs(self.start_y - end_y)
+
+        self.rectangle_box = (x, y, width, height)
 
         screenshot = pyautogui.screenshot()
         screenshot = np.array(screenshot)
@@ -78,8 +86,9 @@ class RectangleSelectorApp:
             self.info_label.config(text=f"Image saved as {file_name}")
 
     def save_rectangle(self):
-        if self.rectangle:
-            self.save_rectangle_callback(self.rectangle)
+        if self.rectangle_box:
+            cv2.destroyAllWindows()
+            self.save_rectangle_callback(self.rectangle_box)
         else:
             self.info_label.config(text="No rectangle to save.")
 
