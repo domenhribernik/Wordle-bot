@@ -5,6 +5,7 @@ import time
 import random
 import datetime
 import cv2
+import nltk
 from nltk.corpus import words
 
 
@@ -65,6 +66,7 @@ class WordleSolverApp:
         return {word.lower() for word in self.word_list if len(word) == 5}
 
     def start_solver(self):
+        nltk.download('words')
         word_list = words.words()
         arr = []
         for word in word_list:
